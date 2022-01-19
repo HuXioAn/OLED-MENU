@@ -36,5 +36,7 @@
       "command": "extension.execute",
       "priority": 4
     }
-  ]
+  ],
+  "idf.adapterTargetName": "esp32",
+  "idf.portWin": "COM5"
 }
