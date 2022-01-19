@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 //#include "sys/unistd.h"
-#include "esp_rom_sys.h"
+//#include "esp_rom_sys.h"这个头文件在idf 4.3就没了，别用了
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/queue.h"
