@@ -228,23 +228,7 @@ void task_display()
         //准备发送到硬件
 
 
-    for(int y=0;y<8;y++)
-	{   
-        uint8_t row[128]={0};
-        uint8_t* p= (BUF)+y*128;
-		oled_setpos(spi,0,y);
-         for(int j=0;j<128;j++){
-             uint8_t * byte=p+j/8;
-             uint8_t bit=j%8;
-             for(int n=0;n<8;n++){
-                 row[j] |= (((1 << (7-bit)) & *(byte+OLED_WIDTH/8*n)) >> (7-bit) )<< n;
-             }
-         }
-	    oled_data(spi,row,128);	    	
-	    
-	}
-
-
+        oled_plot_buf(spi,BUF);//将一整屏buf发送到屏幕
 
 
 
