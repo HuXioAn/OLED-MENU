@@ -18,5 +18,12 @@
         }
     ],
     "idf.portWin": "COM5",
-    "idf.adapterTargetName": "esp32"
+    "idf.adapterTargetName": "esp32",
+    "files.associations": {
+        "freertos.h": "c",
+        "spi_master.h": "c",
+        "task.h": "c",
+        "sh1106.h": "c",
+        "menu.h": "c"
+    }
 }
