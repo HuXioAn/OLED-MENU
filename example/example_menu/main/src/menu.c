@@ -1,8 +1,8 @@
 /*
  * @Author: HuXiaoan 
  * @Date: 2022-02-08 14:42:22 
- * @Last Modified by:   HuXiaoan 
- * @Last Modified time: 2022-02-08 14:42:22 
+ * @Last Modified by: HuXiaoan
+ * @Last Modified time: 2022-02-08 17:51:13
  */
 
 #include <stdio.h>
@@ -60,7 +60,7 @@ uint8_t test_4(void)
 
     return 0;
 }
-//菜单列表
+//菜单列表，其中列表项下可以为空，但是级数必需依次使用，否则退出时有意外发生
 MENU EMenuListTest[] =
     {   
         {MENU_L_0,       //菜单等级
