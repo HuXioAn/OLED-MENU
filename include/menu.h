@@ -7,8 +7,7 @@
 
 */
 #define MENU_LANG_BUF_SIZE 16
-#define OLED_HEIGHT 64
-#define OLED_WIDTH 128
+
 
 //extern spi_device_handle_t spi;
 

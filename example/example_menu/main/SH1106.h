@@ -12,6 +12,7 @@
 
 #define OLED_HEIGHT 64
 #define OLED_WIDTH 128
+#define OLED_BUFSIZE ((OLED_HEIGHT)*(OLED_WIDTH)/8)
 
 
 void oled_cmd(spi_device_handle_t spi, const uint8_t cmd);
@@ -26,7 +27,7 @@ void oled_setpos(spi_device_handle_t spi,unsigned char x, unsigned char y);
 void oled_display_on(spi_device_handle_t spi);
 void oled_display_off(spi_device_handle_t spi);
 
-void oled_init(spi_device_handle_t spi);
+void oled_init(spi_device_handle_t *spi_p);
 
 void oled_plot_buf(spi_device_handle_t spi,uint8_t* BUF);
 

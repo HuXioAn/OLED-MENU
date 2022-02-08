@@ -144,3 +144,21 @@ void oled_init(spi_device_handle_t spi)
  
 }
 
+
+void oled_plot_buf(spi_device_handle_t spi,uint8_t* BUF){
+	for(int y=0;y<8;y++)
+	{ //将正常：从左到右，从上到下的buffer内容发送到屏幕  
+        uint8_t row[128]={0};
+        uint8_t* p= (BUF)+y*128;
+		oled_setpos(spi,0,y);
+         for(int j=0;j<128;j++){
+             uint8_t * byte=p+j/8;
+             uint8_t bit=j%8;
+             for(int n=0;n<8;n++){
+                 row[j] |= (((1 << (7-bit)) & *(byte+OLED_WIDTH/8*n)) >> (7-bit) )<< n;
+             }
+         }
+	    oled_data(spi,row,128);	    	
+	    
+	}
+}

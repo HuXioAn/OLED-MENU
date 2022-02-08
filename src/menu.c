@@ -79,6 +79,21 @@ MENU EMenuListTest[] =
                 {&ni_t,&ni_t,NULL},
                 MENU_TYPE_FUN, //菜单类型
                 test_2},        //菜单函数，功能菜单才会执行，有子菜单的不会执行
+                {MENU_L_2,       //菜单等级
+                "TEST1",        //中文
+                {&ni_t,&ni_t,&ni_t,NULL},
+                MENU_TYPE_FUN,  //菜单类型
+                test_1},         //菜单函数，功能菜单才会执行，有子菜单的不会执行
+                {MENU_L_2,       //菜单等级
+                "TEST1",        //中文
+                {&ni_t,&ni_t,&ni_t,&ni_t,NULL},
+                MENU_TYPE_FUN,  //菜单类型
+                test_1},         //菜单函数，功能菜单才会执行，有子菜单的不会执行
+                {MENU_L_2,       //菜单等级
+                "TEST1",        //中文
+                {&ni_t,&wo_t,&wo_t,NULL},
+                MENU_TYPE_FUN,  //菜单类型
+                test_1},         //菜单函数，功能菜单才会执行，有子菜单的不会执行
 
             {MENU_L_1,       //菜单等级
             "L2",           //中文
@@ -213,23 +228,7 @@ void task_display()
         //准备发送到硬件
 
 
-    for(int y=0;y<8;y++)
-	{   
-        uint8_t row[128]={0};
-        uint8_t* p= (BUF)+y*128;
-		oled_setpos(spi,0,y);
-         for(int j=0;j<128;j++){
-             uint8_t * byte=p+j/8;
-             uint8_t bit=j%8;
-             for(int n=0;n<8;n++){
-                 row[j] |= (((1 << (7-bit)) & *(byte+OLED_WIDTH/8*n)) >> (7-bit) )<< n;
-             }
-         }
-	    oled_data(spi,row,128);	    	
-	    
-	}
-
-
+        oled_plot_buf(spi,BUF);//将一整屏buf发送到屏幕
 
 
 
@@ -364,7 +363,8 @@ uint8_t plot_char(char_struct *char_t, int x, int y, uint8_t *buf)
 {
     //用于在buf的指定坐标（x,y）绘制字符char_t,会根据屏幕尺寸宏来判断边界
 
-    if ((x + char_t->width > OLED_WIDTH) || (y + char_t->height > OLED_HEIGHT))
+    if ((x + char_t->width > OLED_WIDTH+1) || (y + char_t->height > OLED_HEIGHT+1))
+        //(x,y)将会被图案覆盖，所以这里要加一
         return 1;
 
 
@@ -426,7 +426,7 @@ uint8_t plot_char(char_struct *char_t, int x, int y, uint8_t *buf)
 
 uint8_t plot_string(char_struct ** string_t ,int x,int y,uint8_t* buf){
     //由于plot_char会检查边界，这里就只检查返回值了。
-    for(int i=0;string_t[i];i++){
+    for(int i=0;string_t[i];i++){//string_t内容结束后是空指针，做判断条件
         if(plot_char(string_t[i],x,y,buf) != 0)return 1;
         x+=string_t[i]->width-string_t[i]->indent;//消除字节对齐的空白
     }

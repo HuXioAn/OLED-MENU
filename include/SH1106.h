@@ -10,6 +10,8 @@
 #define PIN_NUM_DC   21
 #define PIN_NUM_RST  18
 
+#define OLED_HEIGHT 64
+#define OLED_WIDTH 128
 
 
 void oled_cmd(spi_device_handle_t spi, const uint8_t cmd);
@@ -26,7 +28,7 @@ void oled_display_off(spi_device_handle_t spi);
 
 void oled_init(spi_device_handle_t spi);
 
-
+void oled_plot_buf(spi_device_handle_t spi,uint8_t* BUF);
 
 
 
