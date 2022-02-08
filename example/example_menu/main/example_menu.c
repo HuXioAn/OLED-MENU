@@ -1,3 +1,9 @@
+/*
+ * @Author: HuXiaoan 
+ * @Date: 2022-02-08 14:42:35 
+ * @Last Modified by:   HuXiaoan 
+ * @Last Modified time: 2022-02-08 14:42:35 
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include "freertos/FreeRTOS.h"
@@ -27,7 +33,6 @@ BUTTON up={
     NULL
 };
 
-
 BUTTON enter={
     "enter",
     25,
@@ -36,7 +41,6 @@ BUTTON enter={
     MSG_ENTER,
     NULL
 };
-
 
 BUTTON quit={
     "quit",
@@ -56,14 +60,9 @@ void app_main(void)
 	printf("init over\r\n");
 
 
-
     button_init(&down);
     button_init(&up);
     button_init(&enter);
     button_init(&quit);
-
-
-
-
 
 }

@@ -24,6 +24,9 @@
         "spi_master.h": "c",
         "task.h": "c",
         "sh1106.h": "c",
-        "menu.h": "c"
-    }
+        "menu.h": "c",
+        "stdio.h": "c",
+        "esp_rom_sys.h": "c"
+    },
+    
 }

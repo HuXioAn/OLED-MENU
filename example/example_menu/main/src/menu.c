@@ -1,3 +1,9 @@
+/*
+ * @Author: HuXiaoan 
+ * @Date: 2022-02-08 14:42:22 
+ * @Last Modified by:   HuXiaoan 
+ * @Last Modified time: 2022-02-08 14:42:22 
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -54,7 +60,7 @@ uint8_t test_4(void)
 
     return 0;
 }
-
+//菜单列表
 MENU EMenuListTest[] =
     {   
         {MENU_L_0,       //菜单等级
@@ -122,36 +128,7 @@ MENU EMenuListTest[] =
             {&yi_t,NULL},
             MENU_TYPE_LIST, //菜单类型
             NULL},
-            {MENU_L_1,       //菜单等级
-            "L1",           //中文
-            {&yi_t,NULL},
-            MENU_TYPE_LIST, //菜单类型
-            NULL},
-            {MENU_L_1,       //菜单等级
-            "L1",           //中文
-            {&yi_t,NULL},
-            MENU_TYPE_LIST, //菜单类型
-            NULL},
-            {MENU_L_1,       //菜单等级
-            "L1",           //中文
-            {&yi_t,NULL},
-            MENU_TYPE_LIST, //菜单类型
-            NULL},
-            {MENU_L_1,       //菜单等级
-            "L1",           //中文
-            {&yi_t,NULL},
-            MENU_TYPE_LIST, //菜单类型
-            NULL},
-            {MENU_L_1,       //菜单等级
-            "L1",           //中文
-            {&yi_t,NULL},
-            MENU_TYPE_LIST, //菜单类型
-            NULL},
-            {MENU_L_1,       //菜单等级
-            "L1",           //中文
-            {&yi_t,NULL},
-            MENU_TYPE_LIST, //菜单类型
-            NULL},
+
 
         /*最后的菜单是结束菜单，无意义*/
         {MENU_L_0,       //菜单等级
@@ -177,15 +154,7 @@ void task_display()
     {
         //如果是头,开始显示第一个菜单项
         cur_menu += 1;
-    }
-    else if ((MENU_L_MAX >= cur_menu->l) && (cur_menu->l > MENU_L_0))
-    { //不是开头的一个
-        while (cur_menu->l > MENU_L_0)
-            cur_menu -= 1;
-
-        cur_menu++;
-    }
-    else
+    }else
     { //出现错误
         ESP_LOGE(TAG, "error menulist pointer!\r\n");
     }
@@ -225,24 +194,10 @@ void task_display()
             }
         }
 
-        //现在有了cur的上下相同
-        //把cur放在第二个，可以让up两个，down三个
 
-        //组织图像，需要一个函数，传入buf、内容和位置1-4，是否选中
-
-        /*
-        if(UP[1] != NULL)func;
-        func;
-        if(DOWN[1] != NULL)func;
-        if(DOWN[2] != NULL)func;
-
-        换用一整个函数方案
-        */
-        memset(BUF,0,1024);
-        list_to_buffer((MENU**)UP, (MENU**)DOWN, BUF);//准备好了buf
+        memset(BUF,0,1024);//清空buf
+        list_to_buffer((MENU**)UP, (MENU**)DOWN, BUF);//生成内容，在此函数调节页面布局
         //准备发送到硬件
-
-
         oled_plot_buf(spi,BUF);//将一整屏buf发送到屏幕
 
 
@@ -267,25 +222,9 @@ void task_display()
                         break;
 
                     }else{
-                        //如果是末端函数项
-                        //方案：阻塞菜单显示任务，也就是本任务，恢复相应的任务。
-                        //vTaskResume(cur_menu->task);
-                        //这里清空button queue吗？
-                        /*
-                        因为具体任务优先级低，所以会在下一句挂起menu的时候，开始运行
-                        应该清空but queue，具体应用还是用这个
-                        */
-                    //    if(pdTRUE != xQueueReset(button_qhandle)){
-                    //        //可能会因为有进程被这个队列挂起而无法清空
-                    //        ESP_LOGE(TAG,"error empty the button queue~");
-                    //    }
-
-                    //     vTaskSuspend(NULL);//挂起menu任务
-
-
-                    //决定还是不用这种任务绑定的模式，改成函数来处理
+                        //要执行的任务，切换画面等。。。。
                     cur_menu->func();
-                    //printf("??????\r\n");
+
                     }
                     break;
                 case MSG_UP:
@@ -344,10 +283,8 @@ void list_to_buffer(MENU **UP, MENU **DOWN, uint8_t *buffer)
     /*
     把上下数组中的数据读出判断，如果有，就在对应位置生成文字
     默认四行，当前处于第二行
+    这里调整左边界
     */
-   
-
-
     if (UP[1] != NULL)
     {
         //在第一行填充文字 
@@ -363,7 +300,7 @@ void list_to_buffer(MENU **UP, MENU **DOWN, uint8_t *buffer)
         }
     }
 
-    //加入选中指示符
+    //第二行左侧，加入选中指示符
     plot_char(&triangle_t,1,16,buffer);
 
 

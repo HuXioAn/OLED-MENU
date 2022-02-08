@@ -1,7 +1,14 @@
+/*
+ * @Author: HuXiaoan 
+ * @Date: 2022-02-08 14:42:56 
+ * @Last Modified by:   HuXiaoan 
+ * @Last Modified time: 2022-02-08 14:42:56 
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
 
 #include "menu.h"
 #include "chara.h"

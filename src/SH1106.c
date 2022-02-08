@@ -1,3 +1,9 @@
+/*
+ * @Author: HuXiaoan 
+ * @Date: 2022-02-08 14:43:13 
+ * @Last Modified by: HuXiaoan
+ * @Last Modified time: 2022-02-08 14:43:45
+ */
 
 
 #include "driver/spi_master.h"
@@ -88,9 +94,34 @@ void oled_display_off(spi_device_handle_t spi)
 
 
 //Initialize the display
-void oled_init(spi_device_handle_t spi)
+void oled_init(spi_device_handle_t *spi_p)
 {
 
+	//spi初始化
+    esp_err_t ret;
+    
+    spi_bus_config_t buscfg={
+        .miso_io_num=PIN_NUM_MISO,
+        .mosi_io_num=PIN_NUM_MOSI,
+        .sclk_io_num=PIN_NUM_CLK,
+        .quadwp_io_num=-1,
+        .quadhd_io_num=-1,
+        .max_transfer_sz=0,//默认4096
+    };
+    spi_device_interface_config_t devcfg={
+
+        .clock_speed_hz=10*1000*1000,           //Clock out at 10 MHz
+        .mode=3,                                //极性和相位都为1
+        .spics_io_num=PIN_NUM_CS,               //CS pin
+        .queue_size=5,                          //队列同时等待5个
+        .pre_cb=oled_spi_pre_transfer_callback,  //Specify pre-transfer callback to handle D/C line
+    };
+    ret=spi_bus_initialize(HSPI_HOST, &buscfg, 1);
+    ESP_ERROR_CHECK(ret);
+    ret=spi_bus_add_device(HSPI_HOST, &devcfg, spi_p);
+    ESP_ERROR_CHECK(ret);
+
+	spi_device_handle_t spi = *spi_p;
 
     //Initialize non-SPI GPIOs
     gpio_set_direction(PIN_NUM_DC, GPIO_MODE_OUTPUT);

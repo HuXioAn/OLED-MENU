@@ -1,3 +1,9 @@
+/*
+ * @Author: HuXiaoan 
+ * @Date: 2022-02-08 14:42:59 
+ * @Last Modified by:   HuXiaoan 
+ * @Last Modified time: 2022-02-08 14:42:59 
+ */
 #ifndef _CHARA_H_
 #define _CHARA_H_
 
