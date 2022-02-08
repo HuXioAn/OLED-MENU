@@ -112,6 +112,47 @@ MENU EMenuListTest[] =
                 MENU_TYPE_FUN, //菜单类型
                 test_4},        //菜单函数，功能菜单才会执行，有子菜单的不会执行
 
+            {MENU_L_1,       //菜单等级
+            "L1",           //中文
+            {&yi_t,NULL},
+            MENU_TYPE_LIST, //菜单类型
+            NULL},
+            {MENU_L_1,       //菜单等级
+            "L1",           //中文
+            {&yi_t,NULL},
+            MENU_TYPE_LIST, //菜单类型
+            NULL},
+            {MENU_L_1,       //菜单等级
+            "L1",           //中文
+            {&yi_t,NULL},
+            MENU_TYPE_LIST, //菜单类型
+            NULL},
+            {MENU_L_1,       //菜单等级
+            "L1",           //中文
+            {&yi_t,NULL},
+            MENU_TYPE_LIST, //菜单类型
+            NULL},
+            {MENU_L_1,       //菜单等级
+            "L1",           //中文
+            {&yi_t,NULL},
+            MENU_TYPE_LIST, //菜单类型
+            NULL},
+            {MENU_L_1,       //菜单等级
+            "L1",           //中文
+            {&yi_t,NULL},
+            MENU_TYPE_LIST, //菜单类型
+            NULL},
+            {MENU_L_1,       //菜单等级
+            "L1",           //中文
+            {&yi_t,NULL},
+            MENU_TYPE_LIST, //菜单类型
+            NULL},
+            {MENU_L_1,       //菜单等级
+            "L1",           //中文
+            {&yi_t,NULL},
+            MENU_TYPE_LIST, //菜单类型
+            NULL},
+
         /*最后的菜单是结束菜单，无意义*/
         {MENU_L_0,       //菜单等级
         "END",          //中文
@@ -215,18 +256,16 @@ void task_display()
                 case MSG_ENTER:
                     //分为是否是末端项
                     if(cur_menu->type == MENU_TYPE_LIST){
-                        for(int i=0;;i++){
-                            if(EMenuListTest+i == cur_menu){
-                                /*
-                                改为记录转出的条目，这样好一些，0级标签永远在头上。
-                                如果是任务项目，进入也不需要记录了，cur指针会记录的
-                                */
-                    
-                                menu_path[cur_menu->l]=cur_menu;
-                                cur_menu=EMenuListTest+i+1;
-                                break;
-                            }
-                        }
+                        //对于没有下一层的列表项
+                        if(cur_menu->l>=(cur_menu+1)->l)break;
+                        /*
+                        改为记录转出的条目，这样好一些，0级标签永远在头上。
+                        如果是任务项目，进入也不需要记录了，cur指针会记录的
+                        */
+                        menu_path[cur_menu->l]=cur_menu;
+                        cur_menu=cur_menu+1;
+                        break;
+
                     }else{
                         //如果是末端函数项
                         //方案：阻塞菜单显示任务，也就是本任务，恢复相应的任务。
